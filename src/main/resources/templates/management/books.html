@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+	<head>
+		<meta charset="UTF-8">
+		<title>在庫管理</title>
+		<script type="text/javascript" th:src="@{/js/jquery-3.6.3.min.js}"></script>
+		<script src="/docs/4.2/dist/js/bootstrap.bundle.min.js" th:src="@{/js/bootstrap.bundle.min.js}" integrity="sha384-zDnhMsjVZfS3hiP7oCBRmfjkQC4fzxVxFhBx8Hkz2aZX8gEvA/jsP3eXRCvzTofP" crossorigin="anonymous"></script>
+		<script type="text/javascript" th:src="@{/js/management.js}"></script>
+		<link href="/docs/4.2/dist/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}" rel="stylesheet" >
+		<link th:href="@{/css/style.css}" rel="stylesheet">
+		<link th:href="@{/css/icomoon.css}" rel="stylesheet">
+	</head>
+	<body>
+		<!-- ナビゲーションバー呼び出し -->
+		<div th:replace="block/navbar :: navbar"></div>
+		<a href="#" id="page-top" class="icon-chevron-circle-up"></a>
+		<div class="container-fluid">
+			<div class="row justify-content-center">
+				<div class="col-7">
+					<div class="line-bottom font-size-20 pb-2">在庫管理</div>
+					<div th:if="${message}" th:text="${message}" class="alert alert-primary mt-2"></div>
+					<!--タブ部分-->
+					<ul id="stock_tab" role="tablist" class="nav nav-tabs mt-3">
+						<li class="nav-item">
+							<a href="#stock_reg" id="stock_reg_tab" role="tab" data-toggle="tab" aria-controls="proposal_reg-tab" class="nav-link active">
+							在庫登録
+							</a>
+						</li>
+						<li class="nav-item">
+							<a href="#stock_edit" id="stock_edit_tab" role="tab" data-toggle="tab" aria-controls="proposal_reg-tab" class="nav-link">
+							在庫編集
+							</a>
+						</li>	
+					</ul>
+					<!--パネル部分-->
+					<div class="tab-content">
+						<div id="stock_reg" class="tab-pane active" aria-labelledby="stock_reg_tab">
+							<div class="mt-3">在庫登録</div>
+						</div>
+						<div id="stock_edit" class="tab-pane" aria-labelledby="stock_edit_tab">
+							<div class="mt-3">在庫編集</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

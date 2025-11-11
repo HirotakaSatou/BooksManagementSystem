@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+	<head>
+		<meta charset="UTF-8">
+		<title>トップページ</title>
+		<script type="text/javascript" th:src="@{/js/jquery-3.6.3.min.js}"></script>
+		<script src="/docs/4.2/dist/js/bootstrap.bundle.min.js" th:src="@{/js/bootstrap.bundle.min.js}" integrity="sha384-zDnhMsjVZfS3hiP7oCBRmfjkQC4fzxVxFhBx8Hkz2aZX8gEvA/jsP3eXRCvzTofP" crossorigin="anonymous"></script>
+		<script type="text/javascript" th:src="@{/js/management.js}"></script>
+		<link href="/docs/4.2/dist/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}" rel="stylesheet" >
+		<link th:href="@{/css/style.css}" rel="stylesheet">
+		<link th:href="@{/css/icomoon.css}" rel="stylesheet">
+	</head>
+	<body>
+		<!-- ナビゲーションバー呼び出し -->
+		<div th:replace="block/navbar :: navbar"></div>
+		<a href="#" id="page-top" class="icon-chevron-circle-up"></a>
+		<div class="container-fluid">
+			<div class="row justify-content-center">
+				<div class="col-12">
+					<form method="POST" th:action="@{/reset}">
+						<button class="mt-2">デバッグ：貸出中をリセットする</button>
+					</form>
+				</div>
+				<div class="col-7">
+					<div class="font-size-20 pb-2">今月の特集</div>
+					<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+						<ol class="carousel-indicators">
+							<li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+							<li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+							<li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+						</ol>
+						<div class="carousel-inner">
+							<div class="carousel-item active">
+								<a th:href="@{/book?searchGenre=1&searchWord=}">
+									<img class="bd-placeholder-img bd-placeholder-img-lg d-block w-100" width="" height="300" th:src="@{/img/sample_1.png}">
+									<span class="banner-text" style="color: #000000;">すべての技術書</span>
+								</a>
+							</div>
+							<div class="carousel-item">
+								<a th:href="@{/book?searchGenre=&searchWord=Java}">
+									<img class="bd-placeholder-img bd-placeholder-img-lg d-block w-100" width="" height="300" th:src="@{/img/sample_2.png}">
+									<span class="banner-text" style="color: #000000;">Javaの書籍</span>
+								</a>
+							</div>
+							<div class="carousel-item">
+								<img class="bd-placeholder-img bd-placeholder-img-lg d-block w-100" width="" height="300" th:src="@{/img/sample_3.png}">
+								<span class="banner-text" style="color: #000000;">サンプル3</span>
+							</div>
+						</div>
+						<a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+							<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+							<span class="sr-only">Previous</span>
+						</a>
+						<a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+							<span class="carousel-control-next-icon" aria-hidden="true"></span>
+							<span class="sr-only">Next</span>
+						</a>
+					</div>
+					<div class="font-size-20 mt-5 pb-2">更新情報</div>
+					<div class="ticker-wrap">
+						<div class="ticker-head text-center mr-1">NEWS</div>
+						<div class="ticker">
+							<ul>
+								<li class='ticker-item'><a><span class="ticker-date">2023.1.23</span><span class="ticker-title">書籍を追加しました。</span></a></li>
+								<li class='ticker-item'><a><span class="ticker-date">2023.1.9</span><span class="ticker-title">書籍を追加しました。</span></a></li>
+								<li class='ticker-item'><a><span class="ticker-date">2023.12.26</span><span class="ticker-title">書籍を追加しました。</span></a></li>
+								<li class='ticker-item'><a><span class="ticker-date">2023.12.19</span><span class="ticker-title">書籍管理システムの運用を開始しました。</span></a></li>
+							</ul>
+						</div>
+					</div>
+					<div class="row side-margin-0 mt-5 pb-2">
+						<div><span class="font-size-20">貸出中書籍</span></div>
+					</div>
+					<div th:if="${none}" th:text="${none}" class="text-danger line-top"></div>
+					<div th:unless="${none}">
+						<div class="row">
+							<div class="col-3 mb-2" th:each="obj, stat : ${lendList}" th:object="${obj}">
+								<th:block th:if="${stat.count <= 4}">
+									<div class="card">
+										<div class="card-header">
+											<h6 class="font-weight-bold text-info title-omit" th:text="${obj.title}"></h6>
+										</div>
+										<div class="card-body">
+											<img th:if="${obj.img != null}" th:src="|/img/${obj.img}|" width="96" height="120" class="d-block mx-auto">
+											<img th:if="${obj.img == null}" th:src="@{/img/no_image.png}" width="96" height="120" class="d-block mx-auto">
+										</div>
+										<div class="card-footer">
+											<div class="text-center">
+												<div><small><span th:text="|貸出日　：${#temporals.format(obj.lendDate, 'yyyy/MM/dd')}|"></span></small></div>
+												<div><small><span class="font-weight-bold" th:text="|返却期限：${#temporals.format(obj.returnDueDate, 'yyyy/MM/dd')}|" style="border-bottom: solid 1px ;"></span></small></div>
+											</div>
+										</div>
+										<div>
+      										<small>
+        									<span th:text="${obj.dueMessage}"
+              									  th:class="${obj.dueMessageClass}"></span>
+      										</small>
+   										</div>
+									</div>
+								</th:block>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+	<head th:fragment="books_header_notlogin">
+		<script type="text/javascript" th:src="@{/js/jquery-3.6.3.min.js}"></script>
+		<script src="/docs/4.2/dist/js/bootstrap.bundle.min.js" th:src="@{/js/bootstrap.bundle.min.js}" integrity="sha384-zDnhMsjVZfS3hiP7oCBRmfjkQC4fzxVxFhBx8Hkz2aZX8gEvA/jsP3eXRCvzTofP" crossorigin="anonymous"></script>
+		<script type="text/javascript" th:src="@{/js/management.js}"></script>
+		<link href="/docs/4.2/dist/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}" rel="stylesheet" >
+		<link th:href="@{/css/style.css}" rel="stylesheet">
+		<link th:href="@{/css/icomoon.css}" rel="stylesheet">
+	</head>
+	<body th:fragment="books_navbar_notlogin">
+		<nav class="navbar navbar-expand-md navbar-light bg-info fixed-top p-3">
+			<a class="navbar-brand" href="/">
+				<div class="font-weight-bold">書籍管理システム</div>
+			</a>
+		</nav>
+	</body>
+</html>

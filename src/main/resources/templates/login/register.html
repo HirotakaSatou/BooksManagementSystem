@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+	<head>
+		<meta charset="UTF-8">
+		<title>ユーザー新規登録</title>
+		<div th:replace="~{block/template_notlogin::books_header_notlogin}"></div>
+	</head>
+	<body>
+		<div th:replace="~{block/template_notlogin::books_navbar_notlogin}"></div>
+		<div class="container-fluid">
+			<div class="row justify-content-center">
+				<div class="col-7">
+					<form method="POST" th:action="@{/register}" th:object="${usersForm}">
+						<div class="card">
+							<div class="card-header">
+								<div class="font-size-20">ユーザー新規登録</div>
+							</div>
+							<div class="card-body">
+								<div class="row">
+									<div class="offset-2 col-8">
+										<div class="row">
+											<div class="col-12">
+												<div class="form-group row">
+													<label class="col-12 col-form-label">氏名</label>
+													<div class="col-6">
+														<input class="form-control" th:field="*{lastName}" type="text" autofocus="autofocus" placeholder="苗字">
+														<div class="text-danger mt-2" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></div>
+													</div>
+													<div class="col-6">
+														<input class="form-control" th:field="*{firstName}" type="text" autofocus="autofocus" placeholder="名前">
+														<div class="text-danger mt-2" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></div>
+													</div>
+												</div>
+											</div>
+											<div class="col-12">
+												<div class="form-group">
+													<label for="email" class="col-form-label">Eメールアドレス</label>
+													<input th:field="*{email}" type="email" autofocus="autofocus" class="form-control">
+													<div class="text-danger mt-2" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
+												</div>
+											</div>
+											<div class="col-12">
+												<div class="form-group">
+													<label for="password" class="col-form-label mb-1">パスワード</label>
+													<div class="mb-1">
+														<input th:field="*{password}" type="password" class="form-control">
+													</div>
+													<div class="text-danger mt-2" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
+												</div>
+											</div>
+											<div class="col-12">
+												<div class="form-group row">
+													<div class="col-6 offset-3 mt-4">
+														<button type="submit" class="btn btn-block btn-primary">登録</button>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

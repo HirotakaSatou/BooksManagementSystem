@@ -1,0 +1,17 @@
+{"properties": [
+  {
+    "name": "spring.servlet.session",
+    "type": "java.lang.String",
+    "description": "A description for 'spring.servlet.session'"
+  },
+  {
+    "name": "spring.server.servlet.session.timeout",
+    "type": "java.lang.String",
+    "description": "A description for 'spring.server.servlet.session.timeout'"
+  },
+  {
+    "name": "spring.datasource.Connection.set-auto-commit",
+    "type": "java.lang.String",
+    "description": "A description for 'spring.datasource.Connection.set-auto-commit'"
+  }
+]}

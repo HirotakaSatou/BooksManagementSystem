@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+	<head>
+		<meta charset="UTF-8">
+		<title>貸出完了</title>
+		<script type="text/javascript" th:src="@{/js/jquery-3.6.3.min.js}"></script>
+		<script src="/docs/4.2/dist/js/bootstrap.bundle.min.js" th:src="@{/js/bootstrap.bundle.min.js}" integrity="sha384-zDnhMsjVZfS3hiP7oCBRmfjkQC4fzxVxFhBx8Hkz2aZX8gEvA/jsP3eXRCvzTofP" crossorigin="anonymous"></script>
+		<script type="text/javascript" th:src="@{/js/management.js}"></script>
+		<link href="/docs/4.2/dist/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}" rel="stylesheet" >
+		<link th:href="@{/css/style.css}" rel="stylesheet">
+		<link th:href="@{/css/icomoon.css}" rel="stylesheet">
+	</head>
+	<body>
+		<!-- ナビゲーションバー呼び出し -->
+		<div th:replace="block/navbar :: navbar"></div>
+		<a href="#" id="page-top" class="icon-chevron-circle-up"></a>
+		<div class="container-fluid">
+			<div class="row justify-content-center">
+				<div class="col-7">
+					<div class="line-bottom font-size-20 pb-2" th:text="${title}"></div>
+					<div th:text="${message}" class="alert mt-2" th:classappend="${complete == true} ? 'alert-primary' : 'alert-warning'"></div>
+				</div>
+			</div>
+		</div>
+		<div class="mt-3 text-center">
+    <a th:href="@{/}" class="text-primary">トップ画面に戻る</a>
+</div>
+</div>
+	</body>
+</html>

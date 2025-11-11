@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+	<head>
+		<meta charset="UTF-8">
+		<title>管理インデックス</title>
+		<script type="text/javascript" th:src="@{/js/jquery-3.6.3.min.js}"></script>
+		<script src="/docs/4.2/dist/js/bootstrap.bundle.min.js" th:src="@{/js/bootstrap.bundle.min.js}" integrity="sha384-zDnhMsjVZfS3hiP7oCBRmfjkQC4fzxVxFhBx8Hkz2aZX8gEvA/jsP3eXRCvzTofP" crossorigin="anonymous"></script>
+		<script type="text/javascript" th:src="@{/js/management.js}"></script>
+		<link href="/docs/4.2/dist/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}" rel="stylesheet" >
+		<link th:href="@{/css/style.css}" rel="stylesheet">
+		<link th:href="@{/css/icomoon.css}" rel="stylesheet">
+	</head>
+	<body>
+		<!-- ナビゲーションバー呼び出し -->
+		<div th:replace="block/navbar :: navbar"></div>
+		<a href="#" id="page-top" class="icon-chevron-circle-up"></a>
+		<div class="container-fluid">
+			<div class="row justify-content-center">
+				<div class="col-7">
+					<div class="line-bottom font-size-20 pb-2">管理インデックス</div>
+					<div class="row mt-5">
+						<div class="col-4 border-right">
+							<button type="button" class="col-12 text-center btn btn-outline-secondary">書籍管理</button>
+						</div>
+						<div class="col-4 border-right">
+							<a th:href="@{/management/books}"><button type="button" class="col-12 text-center btn btn-outline-secondary">在庫管理</button></a>
+						</div>
+						<div class="col-4">
+							<button type="button" class="col-12 text-center btn btn-outline-secondary">ユーザー管理</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

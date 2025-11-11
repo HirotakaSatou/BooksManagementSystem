@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>検索結果</title>
+    <script type="text/javascript" th:src="@{/js/jquery-3.6.3.min.js}"></script>
+    <script src="/docs/4.2/dist/js/bootstrap.bundle.min.js" th:src="@{/js/bootstrap.bundle.min.js}" integrity="sha384-zDnhMsjVZfS3hiP7oCBRmfjkQC4fzxVxFhBx8Hkz2aZX8gEvA/jsP3eXRCvzTofP" crossorigin="anonymous"></script>
+    <script type="text/javascript" th:src="@{/js/management.js}"></script>
+    <link href="/docs/4.2/dist/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{/css/style.css}" rel="stylesheet">
+    <link th:href="@{/css/icomoon.css}" rel="stylesheet">
+</head>
+<body>
+    <!-- ナビゲーションバー呼び出し -->
+    <div th:replace="block/navbar :: navbar"></div>
+    <a href="#" id="page-top" class="icon-chevron-circle-up"></a>
+
+    <div class="container-fluid">
+        <div class="row justify-content-center">
+            <div class="col-7">
+                <!-- エラーメッセージ -->
+                <div class="alert alert-warning mt-2 alert-dismissible" role="alert" th:if="${error}" th:text="${error}"></div>
+
+                <!-- 検索結果件数表示 -->
+                <div class="d-flex justify-content-between align-items-center font-size-20 mt-2">
+                    <div>
+                        <th:block>
+                            <!-- ジャンル未選択、キーワード未入力 -->
+                            <div th:if="${#strings.isEmpty(genreName) and #strings.isEmpty(seForm.searchWord)}">
+                                すべての検索結果 : <span id="result-count" th:text="${#lists.size(list)} + '件'"></span>
+                            </div>
+
+                            <!-- ジャンル選択、キーワード未入力 -->
+                            <div th:if="${!#strings.isEmpty(genreName) and #strings.isEmpty(seForm.searchWord)}">
+                                ジャンル「<span th:text="${genreName}"></span>」の検索結果 : 
+                                <span id="result-count" th:text="${#lists.size(list)} + '件'"></span>
+                            </div>
+
+                            <!-- ジャンル未選択、キーワード入力 -->
+                            <div th:if="${#strings.isEmpty(genreName) and !#strings.isEmpty(seForm.searchWord)}">
+                                キーワード「<span th:text="${seForm.searchWord}"></span>」の検索結果 : 
+                                <span id="result-count" th:text="${#lists.size(list)} + '件'"></span>
+                            </div>
+
+                            <!-- ジャンル選択、キーワード入力 -->
+                            <div th:if="${!#strings.isEmpty(genreName) and !#strings.isEmpty(seForm.searchWord)}">
+                                ジャンル「<span th:text="${genreName}"></span>」、キーワード「<span th:text="${seForm.searchWord}"></span>」の検索結果 : 
+                                <span id="result-count" th:text="${#lists.size(list)} + '件'"></span>
+                            </div>
+                        </th:block>
+                    </div>
+
+                    <!-- チェックボックス -->
+                    <div class="d-flex align-items-center">
+                        <input type="checkbox" id="lend-ok-checkbox">
+                        <label for="lend-ok-checkbox" class="mb-0 ml-1" style="cursor:pointer;">
+                            貸出 OK の書籍のみ表示する
+                        </label>
+                    </div>
+                </div>
+
+                <!-- 検索結果一覧 -->
+                <th:block th:if="${list != null and !#lists.isEmpty(list)}">
+                    <div class="search-result row line-bottom side-margin-0 pt-4 pb-4" 
+                         th:each="obj : ${list}" 
+                         th:object="${obj}" 
+                         th:attr="data-lendok=${obj.lendCount != 0},data-samebook=${obj.sameBook}">
+                        <div class="col-2">
+                            <a th:href="@{/book/{id}(id=${obj.id})}">
+                                <img th:if="${obj.img != null}" th:src="|/img/${obj.img}|" width="128" height="160">
+                                <img th:if="${obj.img == null}" th:src="@{/img/no_image.png}" width="128" height="160">
+                            </a>
+                        </div>
+                        <div class="col-10">
+                            <div class="row ml-1">
+                                <div class="col-12 mb-4">
+                                    <a th:href="@{/book/{id}(id=${obj.id})}">
+                                        <h5 class="font-weight-bold text-info" th:text="${obj.title}"></h5>
+                                    </a>
+                                </div>
+                                <div class="col-3 pr-0">
+                                    <div><small>著者：<span th:text="${obj.author}"></span></small></div>
+                                    <div><small>ジャンル：<span th:text="${obj.name}"></span></small></div>
+                                    <div><small>出版社：<span th:text="*{publisher}">出版社</span></small></div>
+                                    <div class="mt-1"><small>レビュー：</small><span>☆</span><span>☆</span><span>☆</span><span>☆</span><span>☆</span></div>
+                                </div>
+                                <div class="col-7">
+                                    <small>
+                                        <div class="font-weight-bold line-bottom">＜本の内容＞</div>
+                                        <div class="detail-omit" th:text="${obj.detail}"></div>
+                                    </small>
+                                </div>
+                                <div class="col-2 mt-auto mb-auto">
+                                    <div class="font-weight-bold text-center lend-count">
+                                        <div th:classappend="${obj.lendCount > 0 && !obj.sameBook} ? 'text-success' : 'text-primary'"
+                                             th:text="${obj.lendCount > 0 && !obj.sameBook} ? '貸出OK' : '貸出中'"></div>
+                                    </div>
+                                    <div class="text-center">
+                                        <div class="font-weight-bold"
+                                             th:classappend="${obj.lendCount > 0 && !obj.sameBook} ? 'icon-happy text-success' : 'icon-sad text-primary'"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </th:block>
+
+                <!-- 検索結果0件 -->
+                <th:block th:if="${list == null or #lists.isEmpty(list)}">
+                    <div class="alert alert-info mt-3 text-center" role="alert">
+                        指定されたキーワードに該当する書籍はありませんでした。
+                    </div>
+                </th:block>
+
+            </div>
+        </div>
+    </div>
+</body>
+</html>

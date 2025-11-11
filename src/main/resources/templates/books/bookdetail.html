@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+	<head>
+		<meta charset="UTF-8">
+		<title>書籍詳細</title>
+		<script type="text/javascript" th:src="@{/js/jquery-3.6.3.min.js}"></script>
+		<script src="/docs/4.2/dist/js/bootstrap.bundle.min.js" th:src="@{/js/bootstrap.bundle.min.js}" integrity="sha384-zDnhMsjVZfS3hiP7oCBRmfjkQC4fzxVxFhBx8Hkz2aZX8gEvA/jsP3eXRCvzTofP" crossorigin="anonymous"></script>
+		<script type="text/javascript" th:src="@{/js/management.js}"></script>
+		<link href="/docs/4.2/dist/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}" rel="stylesheet" >
+		<link th:href="@{/css/style.css}" rel="stylesheet">
+		<link th:href="@{/css/icomoon.css}" rel="stylesheet">
+	</head>
+	<body>
+		<!-- ナビゲーションバー呼び出し -->
+		<div th:replace="block/navbar :: navbar"></div>
+		<a href="#" id="page-top" class="icon-chevron-circle-up"></a>
+		<div class="container-fluid">
+			<div class="row justify-content-center">
+				<div class="col-9">
+					<button class="previous btn btn-outline-secondary" onclick="history.back(); return false;">戻る</button>
+				</div>
+				<div class="col-7">
+					<div class="alert alert-warning mt-2 alert-dismissible" role="alert" th:if="${error}" th:text="${error}"></div>
+					<div th:object="${optional}">
+						<div class="line-bottom pb-2">
+							<div class="font-size-20">
+								<div class="font-weight-bold text-info" th:text="*{title}">タイトル</div>
+							</div>
+						</div>
+						<form method="POST" th:action="@{/complete}">
+							<div class="row side-margin-0 pt-5">
+									<div class="col-3">
+    								<!-- 画像ファイル名がある場合は表示 -->
+    								<img th:if="*{img != null}" th:src="|/img/*{img}|" width="192" height="240" alt="書籍画像">
+    								<!-- 画像がない場合はデフォルト画像 -->
+    								<img th:if="*{img == null}" th:src="@{/img/no_image.png}" width="192" height="240" alt="画像なし">
+								</div>
+								<div class="col-9">
+									<div class="row">
+										<div class="col-6">
+											<div><small>著者：<span th:text="*{author}">著者</span></small></div>
+											<div><small>ジャンル：<span th:text="*{name}">ジャンル</span></small></div>
+											<div><small>出版社：<span th:text="*{publisher}">出版社</span></small></div>
+											<div class="mt-1"><small>レビュー：</small><span>☆</span><span>☆</span><span>☆</span><span>☆</span><span>☆</span></div>
+										</div>
+										<div class="col-6">
+											<button class="col-12 btn btn-primary mt-2"
+        										th:disabled="*{lendCount == 0} or ${sameBook}">
+    											<!-- すでに借りている場合 -->
+    											<span th:if="${sameBook}">この書籍を借りています</s>
+    											<!-- 在庫がない場合 -->
+    											<span th:if="*{lendCount == 0} and !${sameBook}">在庫がありません</span>
+    											<!-- 借りられる場合 -->
+   	 											<span th:if="*{lendCount != 0} and !${sameBook}" style="display:block;">
+        											この書籍を借りる
+    											</span>
+    											<small th:if="*{lendCount != 0} and !${sameBook}" style="display:block;">
+        											返却期限は<span th:text="${dueDate}"></span>です。
+    											</small>
+											</button>
+										</div>
+										<div class="col-12 pt-5">
+											<small>
+												<div class="font-weight-bold line-bottom">＜本の内容＞</div>
+												<span th:text="*{detail}" style="white-space: pre-line;"></span>
+											</small>
+										</div>
+									</div>
+								</div>
+							</div>
+							<input th:value="*{id}" type="hidden" name="bookNameId">
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

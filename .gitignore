@@ -1,0 +1,17 @@
+
+# Java build
+target/
+*.class
+
+# IDE configs
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# OS
+.DS_Store
+
+# Spring Boot secret info
+src/main/resources/application.properties
+

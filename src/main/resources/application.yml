@@ -1,0 +1,10 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/booksmanagement # pgAdminからbooksmanagementテーブルを作成しておく
+    username: postgres
+    password: ０４１０
+    driverClassName: org.postgresql.Driver
+  sql:
+    init:
+      mode: never # modeの値がalways：Boot起動のたびにDBを初期化する、never：DBを初期化しない
+      encoding: utf-8
